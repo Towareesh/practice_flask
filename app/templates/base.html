@@ -12,6 +12,12 @@
     {% endif %}
 </head>
     <body>
+        <div>Main: 
+        <a href="{{ url_for('index') }}">Blog</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
         {% block content %}{% endblock %}
     </body>
 </html>
