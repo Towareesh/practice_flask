@@ -34,3 +34,41 @@ h1 {
 #error {
     color: #b71a1a;
 }
+
+a {
+    outline: none;
+    text-decoration: none;
+    display: inline-block;
+    width: 10%;
+    margin-right: 0.5%;
+    text-align: center;
+    line-height: 2;
+    color: black;
+  }
+
+a:link {
+    color: #1a1a1a;
+}
+
+a:visited {
+    color: #1a1a1a;
+}
+
+a:focus {
+    border-radius: 10px;
+    background: #8e8e8e;
+}
+
+a:hover {
+    border-radius: 10px;
+    background: #3c3c3c;
+  }
+  
+a:active {
+    background: #717070;
+    color: #8e8e8e;
+  }
+
+#avatar {
+    border-radius: 30px;
+}

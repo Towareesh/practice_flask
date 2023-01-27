@@ -12,11 +12,12 @@
     {% endif %}
 </head>
     <body>
-        <div>Main: 
+        <div id="map_links">
         <a href="{{ url_for('index') }}">Blog</a>
         <a href="{{ url_for('login') }}">Login</a>
         <a href="{{ url_for('register') }}">Register</a>
         <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
         </div>
         {% block content %}{% endblock %}
     </body>
