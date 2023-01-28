@@ -35,36 +35,31 @@ h1 {
     color: #b71a1a;
 }
 
-a {
+#edit_profile {
     outline: none;
     text-decoration: none;
-    display: inline-block;
-    width: 10%;
-    margin-right: 0.5%;
-    text-align: center;
-    line-height: 2;
-    color: black;
-  }
-
-a:link {
     color: #1a1a1a;
 }
 
-a:visited {
+#edit_profile:link {
     color: #1a1a1a;
 }
 
-a:focus {
+#edit_profile:visited {
+    color: #1a1a1a;
+}
+
+#edit_profile:focus {
     border-radius: 10px;
     background: #8e8e8e;
 }
 
-a:hover {
+#edit_profile:hover {
     border-radius: 10px;
     background: #3c3c3c;
   }
   
-a:active {
+#edit_profile:active {
     background: #717070;
     color: #8e8e8e;
   }
@@ -72,3 +67,46 @@ a:active {
 #avatar {
     border-radius: 30px;
 }
+
+#map_links {
+    outline: none;
+    text-decoration: none;
+    display: inline-block;
+    width: 10%;
+    margin-right: 0.5%;
+    text-align: center;
+    line-height: 2;
+    color: #1a1a1a;
+  }
+
+#map_links:link {
+    color: #1a1a1a;
+}
+
+#map_links:visited {
+    color: #1a1a1a;
+}
+
+#map_links:focus {
+    border-radius: 10px;
+    background: #8e8e8e;
+}
+
+#map_links:hover {
+    border-radius: 10px;
+    background: #3c3c3c;
+  }
+  
+#map_links:active {
+    background: #717070;
+    color: #8e8e8e;
+  }
+
+#avatar {
+    border-radius: 30px;
+}
+
+/* #username {
+    height: 30px;
+    font-size: 60px;
+} */
