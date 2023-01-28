@@ -5,9 +5,12 @@
         <tr valign="top">
             <td><img id="avatar" src="{{ user.avatar(128) }}"></td>
             <td>
-                <h1>User: {{ user.username }}</h1>
+                <h1 id="username">{{ user.username }}</h1>
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}<p>Last seen on: {{ user.last_seen.strftime('%B %d %Y - %H:%M:%S') }}</p>{% endif %}
+                {% if user == current_user %}
+                <p><a id="edit_profile" href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+                {% endif %}
             </td>
         </tr>
     </table>
