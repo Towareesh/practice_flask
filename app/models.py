@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     followed      = db.relationship('User',
                                     secondary     = followers,
                                     primaryjoin   = (followers.c.follower_id == id),
-                                    secondaryjoin = (followers.c.follower_id == id),
+                                    secondaryjoin = (followers.c.followed_id == id),
                                     backref       = db.backref('followers', lazy='dynamic'),
                                     lazy          = 'dynamic')
 
@@ -48,8 +48,8 @@ class User(UserMixin, db.Model):
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
 
     def follow(self, user):
-        if not self.is_following(user):
-            self.followed.append(user)
+        # if not self.is_following(user):
+        self.followed.append(user)
     
     def unfollow(self, user):
         if self.is_following(user):
