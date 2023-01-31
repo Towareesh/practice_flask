@@ -5,6 +5,8 @@
 # u1.follow(u2)
 # db.session.delete()
 # db.session.commit()
+# db.create_all()
+# db.drop_all()
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -59,7 +61,7 @@ class User(UserMixin, db.Model):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
     
     def followed_posts(self):
-        tracked_posts_user = Post.query.join(followers, (followers.c.tracked_posts_user_id == Post.user_id)).filter(followers.c.follower_id == self.id)
+        tracked_posts_user = Post.query.join(followers, (followers.c.followed_id  == Post.user_id)).filter(followers.c.follower_id == self.id)
         own_follow         = Post.query.filter_by(user_id=self.id)
         return tracked_posts_user.union(own_follow).order_by(Post.timestamp.desc())
 
