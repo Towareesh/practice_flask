@@ -18,6 +18,23 @@ def user_del_db(user):
     db.session.delete(user)
     db.session.commit()
 
+def not_current_user(user):
+    if user != current_user:
+        return user
+
+def get_first_post(user):
+    post = None
+    try:
+        get_first_post = user.posts.first().body
+        post = get_first_post
+    except:
+        post = None
+    return post
+
+def view_user_posts(users):
+    user_posts = [{'author': {'username': user.username},
+                   'body': get_first_post(user)} for user in users if get_first_post(user)]
+    return user_posts
 
 @app.before_request
 def before_request():
@@ -26,31 +43,13 @@ def before_request():
         db.session.commit()
 
 
-@app.route('/test')
-@app.route('/test/<data>')
-def test(data=None):
-    server_gmt_time  = datetime.now()
-    result = server_gmt_time.strftime("%d-%m-%Y %H:%M")
-    
-    if data is not None:
-        result = data
-    
-    return result
-
-
 @app.route('/')
 @app.route('/index/')
 @app.route('/index')
 @login_required
 def index():
-    posts = [{'author': {'username': 'Vlad'},
-              'body': 'Beautiful day in Portland!'},
-
-             {'author': {'username': 'Tony'},
-              'body': 'Nice mother'},
-
-             {'author': {'username': 'Mark'},
-              'body': 'Bullshit!'}]
+    users = list(filter(not_current_user, User.query.all()))
+    posts = view_user_posts(users)
 
     return render_template('index.html', title='INDEX', posts=posts)
 
