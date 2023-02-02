@@ -23,7 +23,6 @@ def not_current_user(user):
         return user
 
 def get_first_post(user):
-    post = None
     try:
         get_first_post = user.posts.first().body
         post = get_first_post
@@ -32,7 +31,7 @@ def get_first_post(user):
     return post
 
 def view_user_posts(users):
-    user_posts = [{'author': {'username': user.username},
+    user_posts = [{'author': {'username': user.username, 'avatar': user.avatar},
                    'body': get_first_post(user)} for user in users if get_first_post(user)]
     return user_posts
 
