@@ -19,6 +19,8 @@ class BaseConfig:
     
     MAIL_DEFAULT_SENDER = MAIL_USERNAME
 
+    POSTS_PER_PAGE = 3
+
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
