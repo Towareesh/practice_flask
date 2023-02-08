@@ -7,12 +7,13 @@ This is a training project on flask.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install packages.
 
 ```bash
-git clone https://github.com/Towareesh/practice_flask.git
-```
-```bash
 pip install -r requirements.txt
 ```
+## Git clone
 
+```bash
+git clone https://github.com/Towareesh/practice_flask.git
+```
 ## Usage
 
 ```bash
