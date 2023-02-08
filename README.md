@@ -1,7 +1,11 @@
 # Building
 
 This is a training project on flask.
+## Init
 
+```bash
+git clone https://github.com/Towareesh/practice_flask.git
+```
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install packages.
@@ -9,11 +13,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install package
 ```bash
 pip install -r requirements.txt
 ```
-## Git clone
 
-```bash
-git clone https://github.com/Towareesh/practice_flask.git
-```
 ## Usage
 
 ```bash
