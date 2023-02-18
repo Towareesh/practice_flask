@@ -6,14 +6,16 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY                     = os.environ.get('SECRET_KEY') or 'is_admin'
 
     #### set config Flask-Mail ####
-    # MAIL_USE_TLS  = True
-    MAIL_SERVER   = 'localhost'
-    MAIL_PORT     = 5050 or 8080
+    MAIL_USE_TLS  = False
+    MAIL_USE_SSL  = True
+    SECRET_KEY    = 'is_admin'
+    MAIL_SERVER   = 'smtp.gmail.com'
+    MAIL_PORT     = 465
 
-    #### define your data ####
+    ADMINS = os.environ.get('ADMINS')
+
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     
