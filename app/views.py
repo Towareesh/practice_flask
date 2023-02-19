@@ -42,6 +42,19 @@ def view_user_posts(users):
                    'body': get_first_post(user)} for user in users if get_first_post(user)]
     return user_posts
 
+<<<<<<< HEAD
+=======
+@app.route('/test_mail')
+def test_mail():
+    msg = Message('hello world',
+                  sender='towareesh41@gmail.com',
+                  recipients=['anitaulitka@gmail.com'])
+    
+    msg.body = "hello everybody my name is TALIBAN"
+    mail.send(msg)
+    return 'MAIL SEND'
+
+>>>>>>> 7c91e0cc3f2f7fa64497c4d9c0897f00556dbb15
 
 @app.before_request
 def before_request():
