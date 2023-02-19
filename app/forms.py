@@ -18,6 +18,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Запомнить меня')
     submit      = SubmitField('Войти')
 
+
 class RegistrationForm(FlaskForm):
     username   = StringField('Имя', validators=[DataRequired()])
     password   = PasswordField('Пароль', validators=[DataRequired()])
@@ -34,6 +35,7 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Пожалуйста, используйте другую почту.')
+
 
 class EditProfileForm(FlaskForm):
     username = StringField('Имя', validators=[DataRequired()])
@@ -54,6 +56,19 @@ class EditProfileForm(FlaskForm):
 class EmptyForm(FlaskForm):
     submit = SubmitField('Submit')
 
+
 class PostForm(FlaskForm):
-    post = TextAreaField('Скажите что-то', validators=[DataRequired(), Length(min=1, max=140)])
+    post   = TextAreaField('Скажите что-то', validators=[DataRequired(), Length(min=1, max=140)])
     submit = SubmitField('Submit')
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    email  = StringField('Email', validators=[DataRequired(), Email()] )
+    submit = SubmitField('Request Password Reset')
+
+
+class ResetPasswordForm(FlaskForm):
+    password  = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Repeat Password',
+                              validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Requset Password Reset')
