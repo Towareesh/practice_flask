@@ -15,12 +15,20 @@ pip install -r requirements.txt
 
 ## Usage
 
-```bash
+```cmd
 flask shell
 ```
 ```flask shell
 db.create_all()
 db.session.commit()
+```
+## Launch
+```cmd
+flask run
+```
+or
+```cmd
+python3 runner.py
 ```
 
 ## Contributing
