@@ -5,6 +5,17 @@
     {% if title %}{{ title }} - page{% endif %}
 {% endblock %}
 
+{# {% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %} #}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.locale(language='ru') }}
+{% endblock %}
+
 {% block navbar %}
     <nav class="navbar navbar-defolt">
         <div class="container">
@@ -45,7 +56,6 @@
         {% endif %}
         {% endwith %}
 
-        {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
