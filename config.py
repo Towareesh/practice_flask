@@ -10,18 +10,21 @@ class BaseConfig:
     #### set config Flask-Mail ####
     MAIL_USE_TLS  = False
     MAIL_USE_SSL  = True
-    SECRET_KEY    = 'is_admin'
     MAIL_SERVER   = 'smtp.gmail.com'
     MAIL_PORT     = 465
-
-    ADMINS = os.environ.get('ADMINS')
-
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    
+
     MAIL_DEFAULT_SENDER = MAIL_USERNAME
 
+    ADMINS     = os.environ.get('ADMINS')
+    SECRET_KEY = 'is_admin'
+
+    #### set pagination config ####
     POSTS_PER_PAGE = 3
+    
+    #### set locales config ####
+    LANGUAGES = ['ru', 'en']
 
 
 class DevelopmentConfig(BaseConfig):

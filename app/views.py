@@ -3,9 +3,8 @@ from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from flask_mail import Message
 
-from app import app, db, mail
+from app import app, db
 from app.forms import (LoginForm,
                        RegistrationForm,
                        EditProfileForm,
@@ -17,12 +16,12 @@ from app.models import User, Post
 from app.email import send_password_reset_email
 
 
-def user_write_db(user):
-    db.session.add(user)
+def data_write_db(data):
+    db.session.add(data)
     db.session.commit()
 
-def user_del_db(user):
-    db.session.delete(user)
+def data_del_db(data):
+    db.session.delete(data)
     db.session.commit()
 
 def not_current_user(user):
@@ -57,8 +56,7 @@ def index():
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.post.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
+        data_write_db(post)
         flash('Your post is now live!')
         return redirect(url_for('index'))
     
@@ -91,23 +89,11 @@ def explore():
 @app.route('/home')
 @login_required
 def home():
-    """ 
-    Представление главной страницы.
-    Returns:
-        str: object render_template
-    """
-
     return render_template('base.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    Представление страницы с моделью регистации.
-    Returns:
-        str: object render_template
-    """
-
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
@@ -140,7 +126,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
 
-        user_write_db(user)
+        data_write_db(user)
 
         flash('You are now a registered user!')
         return redirect(url_for('login'))
