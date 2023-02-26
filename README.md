@@ -30,7 +30,16 @@ or
 ```cmd
 python3 runner.py
 ```
-
+## Translate commands
+```cmd
+pybabel extract -F babel.cfg -k _l -o messages.pot .
+```
+```cmd
+pybabel init -i messages.pot -d app/translations -l 'your lang'
+```
+```cmd
+pybabel compile -d app/translations
+```
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
