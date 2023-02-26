@@ -1,0 +1,137 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-26 17:42+0200\n"
+"PO-Revision-Date: 2023-02-26 17:51+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: app/__init__.py:25
+msgid "Please login to access this page."
+msgstr "Пожалуйста, войдите в систему, чтобы получить доступ к этой странице."
+
+#: app/forms.py:17 app/forms.py:24 app/forms.py:42
+msgid "Username"
+msgstr "Имя"
+
+#: app/forms.py:18 app/forms.py:25 app/forms.py:72
+msgid "Password"
+msgstr "Пароль"
+
+#: app/forms.py:19
+msgid "Remember Me"
+msgstr "Запомнить меня"
+
+#: app/forms.py:20
+msgid "Sign In"
+msgstr "Войти"
+
+#: app/forms.py:26 app/forms.py:73
+msgid "Repeat Password"
+msgstr "Повторите пароль"
+
+#: app/forms.py:27 app/forms.py:67
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:28
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+#: app/forms.py:33 app/forms.py:54
+msgid "Please use a different username."
+msgstr "Пожалуйста используйте другое имя."
+
+#: app/forms.py:38
+msgid "Please use a different email address."
+msgstr "Пожалуйста используйте другую почту"
+
+#: app/forms.py:43
+msgid "About me"
+msgstr "Обо мне"
+
+#: app/forms.py:44 app/forms.py:63
+msgid "Submit"
+msgstr "Отправить"
+
+#: app/forms.py:62
+msgid "Say something"
+msgstr "Скажите что-то"
+
+#: app/forms.py:68
+msgid "Request Password Reset"
+msgstr "Запросить сброс пароля"
+
+#: app/forms.py:74
+msgid "Requset Password Reset"
+msgstr "Сменить пароль"
+
+#: app/templates/404.html:4
+msgid "Not Found"
+msgstr "Не найдено"
+
+#: app/templates/404.html:5
+msgid "Back"
+msgstr "Назад"
+
+#: app/templates/_post.html:14
+#, python-format
+msgid "%(username)s said %(when)s"
+msgstr "%(username)s сказал %(when)s"
+
+#: app/templates/index.html:5
+#, python-format
+msgid "Hi, %(username)s!"
+msgstr "Привет, %(username)s!"
+
+#: app/templates/index.html:17 app/templates/user.html:41
+msgid "Newer posts"
+msgstr "Новые сообщения"
+
+#: app/templates/index.html:22 app/templates/user.html:46
+msgid "Older posts"
+msgstr "Старые сообщения"
+
+#: app/templates/user.html:8
+msgid "User"
+msgstr "Пользователь"
+
+#: app/templates/user.html:11
+msgid "Last seen on"
+msgstr "Был(а) в сети"
+
+#: app/templates/user.html:13
+#, python-format
+msgid "%(count)d followers"
+msgstr "%(count)d подписчики"
+
+#: app/templates/user.html:13
+#, python-format
+msgid "%(count)d following"
+msgstr "%(count)d подписки"
+
+#: app/templates/user.html:15
+msgid "Edit your profile"
+msgstr "Отредактируйте свой профиль"
+
+#: app/templates/user.html:20
+msgid "Follow"
+msgstr "Подписаться"
+
+#: app/templates/user.html:27
+msgid "Unfollow"
+msgstr "Отписаться"
+
