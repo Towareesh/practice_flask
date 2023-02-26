@@ -1,7 +1,7 @@
 import datetime, os, logging
 
 from logging.handlers import SMTPHandler, RotatingFileHandler
-from app import app
+from app import app, cli
 
 
 def view_reload_time():
