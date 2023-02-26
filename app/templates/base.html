@@ -1,14 +1,8 @@
-{% extends "bootstrap/base.html" %}
-
+{% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %}{{ title }} - page{% endif %}
+    {% if title %}{{ title }} - Microblog{% else %}Welcome to Microblog{% endif %}
 {% endblock %}
-
-{# {% block styles %}
-{{super()}}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-{% endblock %} #}
 
 {% block scripts %}
     {{ super() }}
@@ -17,28 +11,28 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-defolt">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">toggle navigation</span>
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" id="map_links" href="{{ url_for('index') }}">Blog</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">Home</a></li>
-                    {# <li><a href="{{ url_for('explore') }}">Explore</a></li> #}
+                    <li><a href="{{ url_for('explore') }}">Explore</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('login')}}">Login</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% else %}
                     <li><a href="{{ url_for('user', username=current_user.username) }}">Profile</a></li>
-                    <li><a href="{{ url_for('logout')}}">Logout</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -46,7 +40,7 @@
     </nav>
 {% endblock %}
 
-{% block content%}
+{% block content %}
     <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -56,6 +50,7 @@
         {% endif %}
         {% endwith %}
 
+        {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
