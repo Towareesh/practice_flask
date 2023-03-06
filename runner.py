@@ -1,8 +1,18 @@
 import datetime, os, logging
 
-from logging.handlers import SMTPHandler, RotatingFileHandler
-from app import app, cli
+from logging.handlers import RotatingFileHandler
+from app import create_app
+from config import DevelopmentConfig
 
+from app.errors import errors_bp
+from app.auth import auth_bp
+from app.main import main_bp
+
+
+app = create_app(DevelopmentConfig,
+                 errors_bp,
+                 auth_bp,
+                 main_bp)
 
 def view_reload_time():
     file_name = os.path.basename(__file__)
@@ -32,7 +42,6 @@ def start_logging():
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Worked/Logging: runner.py')
-
 
 
 if __name__ == '__main__':

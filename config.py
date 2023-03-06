@@ -1,11 +1,12 @@
 import os
-
+from dotenv import load_dotenv
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
-
+load_dotenv(os.path.join(base_dir, '.env'))
 
 class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DETECT_LANG_API_KEY = os.environ.get('DETECT_LANG_API_KEY')
 
     #### set config Flask-Mail ####
     MAIL_USE_TLS  = False
@@ -28,6 +29,7 @@ class BaseConfig:
 
 
 class DevelopmentConfig(BaseConfig):
+    FLASK_APP='runner.py'
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEVELOPMENT_DATABASE_URI') or 'sqlite:///' + os.path.join(base_dir, 'app.db')

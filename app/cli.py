@@ -1,9 +1,8 @@
 import os
 import click
-from app import app
 
 
-@app.cli.group()
+@click.group()
 def translate():
     """Translation and localization commands."""
     pass

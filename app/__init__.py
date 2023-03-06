@@ -1,6 +1,6 @@
-import os, config
+import os
 
-from flask import Flask, request
+from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -8,27 +8,47 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from config import BaseConfig
+
+# from app.main import main_bp
+# from app.auth import auth_bp
+# from app.errors import errors_bp
 
 
-# creating an application instance
-app = Flask(__name__)
-app.config.from_object(os.environ.get('FLASK_ENV') or 'config.DevelopmentConfig')
-db        = SQLAlchemy(app)
-migrate   = Migrate(app, db)
-login     = LoginManager(app)
-mail      = Mail(app)
-bootstrap = Bootstrap(app)
-moment    = Moment(app)
-babel     = Babel(app)
+# declaration of global variables
+db        = SQLAlchemy()
+migrate   = Migrate()
+login     = LoginManager()
+mail      = Mail()
+bootstrap = Bootstrap()
+moment    = Moment()
+babel     = Babel()
 
-login.login_view    = 'login'
+login.login_view    = 'auth.login'
 login.login_message = _l('Please login to access this page.')
 
-# babel selector langs
 def get_locale():
-    # return request.accept_languages.best_match(app.config['LANGUAGES'])
-    return 'en'
+    return request.accept_languages.best_match('ru', 'en')
 
-babel.init_app(app, locale_selector=get_locale)
+def create_app(config_class=BaseConfig, *blueprints):
 
-from app import views, models, errors
+    # creating an application instance
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    mail.init_app(app)
+    bootstrap.init_app(app)
+    moment.init_app(app)
+    babel.init_app(app)
+
+    # registers blueprints
+    for blueprint in blueprints:
+        app.register_blueprint(blueprint)
+
+    return app
+
+
+from app import models
