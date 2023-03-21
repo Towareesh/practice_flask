@@ -12,13 +12,14 @@ from flask import (render_template,
                    current_app)
 
 from flask_login import current_user, login_required
-from werkzeug.urls import url_parse
 from flask_babel import _, get_locale
+from werkzeug.urls import url_parse
 
-from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm
+from app.translate import translate_text
 from app.models import User, Post
 from app.main import main_bp
+from app import db
 
 
 def data_write_db(data):
@@ -158,3 +159,11 @@ def unfollow(username):
         return redirect(url_for('main.user', username=username))
     else:
         return redirect(url_for('main.index'))
+
+
+@main_bp.route('/translate', methods=['POST'])
+@login_required
+def translate_():
+    return jsonify({'text': translate_text(request.form['text'],
+                                           request.form['source_language'],
+                                           request.form['dest_language'])})

@@ -13,7 +13,20 @@
                 {% endset %}
                 {{ _('%(username)s said %(when)s', username=user_link, when=moment(post.timestamp).fromNow()) }}
                 <br>
-                <p>{{ post.language }}:</p>{{ post.body }}
+                <p>{{ post.language }}:</p>
+
+                <span id="post{{ post.id }}">{{post.body}}</span>
+                {% if post.language and post.language != g.locale %}
+                <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+                <br><br>
+                <span id="translation{{ post.id }}">
+                <a href="javascript:translate('#post{{ post.id }}',
+                                              '#translation{{ post.id }}',
+                                              '{{ post.language }}',
+                                              '{{ g.locale }}');">{{ _('translate') }}
+                </a>
+                </span>
+                {% endif %}
             </td>
         </tr>
     </table>
