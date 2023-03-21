@@ -29,7 +29,7 @@ class BaseConfig:
 
 
 class DevelopmentConfig(BaseConfig):
-    FLASK_APP='runner.py'
+    FLASK_APP = 'runner.py'
     DEBUG = True
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEVELOPMENT_DATABASE_URI') or 'sqlite:///' + os.path.join(base_dir, 'app.db')

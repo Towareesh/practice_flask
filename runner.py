@@ -1,18 +1,10 @@
 import datetime, os, logging
 
+from flask import request
 from logging.handlers import RotatingFileHandler
 from app import create_app
 from config import DevelopmentConfig
 
-from app.errors import errors_bp
-from app.auth import auth_bp
-from app.main import main_bp
-
-
-app = create_app(DevelopmentConfig,
-                 errors_bp,
-                 auth_bp,
-                 main_bp)
 
 def view_reload_time():
     file_name = os.path.basename(__file__)
@@ -31,22 +23,23 @@ def view_reload_time():
                     paint_text(file_name, 'blue'))
     return template_view
 
-def start_logging():
+def start_logging(app):
     if not os.path.exists('logs'):
         os.mkdir('logs')
 
     file_handler = RotatingFileHandler('logs/runner.log', maxBytes=10240, backupCount=10, encoding='UTF-8')
     file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
 
+    app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
     app.logger.info('Worked/Logging: runner.py')
 
 
 if __name__ == '__main__':
-    
+    app = create_app(DevelopmentConfig)
+    start_logging(app)
     print(view_reload_time())
-    start_logging()
 
-    app.run()
+    with app.app_context(): 
+        app.run()

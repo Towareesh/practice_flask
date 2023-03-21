@@ -10,10 +10,6 @@ from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from config import BaseConfig
 
-# from app.main import main_bp
-# from app.auth import auth_bp
-# from app.errors import errors_bp
-
 
 # declaration of global variables
 db        = SQLAlchemy()
@@ -27,10 +23,8 @@ babel     = Babel()
 login.login_view    = 'auth.login'
 login.login_message = _l('Please login to access this page.')
 
-def get_locale():
-    return request.accept_languages.best_match('ru', 'en')
 
-def create_app(config_class=BaseConfig, *blueprints):
+def create_app(config_class=BaseConfig):
 
     # creating an application instance
     app = Flask(__name__)
@@ -42,11 +36,17 @@ def create_app(config_class=BaseConfig, *blueprints):
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
-    babel.init_app(app)
+    babel.init_app(app, locale_selector = lambda: request.accept_languages.best_match(['ru', 'en']))
 
-    # registers blueprints
-    for blueprint in blueprints:
-        app.register_blueprint(blueprint)
+
+    from app.errors import errors_bp
+    app.register_blueprint(errors_bp)
+
+    from app.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from app.main import main_bp
+    app.register_blueprint(main_bp)
 
     return app
 
