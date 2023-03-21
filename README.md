@@ -22,11 +22,21 @@ flask shell
 db.create_all()
 db.session.commit()
 ```
+### Create your additional config
+`.flaskenv`
+```python
+FLASK_APP='runner.py'
+MAIL_USERNAME='example@gmail.com'
+MAIL_PASSWORD='yourpassword'
+ADMINS=['example@gmail.com']
+DETECT_LANG_API_KEY='your_api'
+```
+[DETECT LANG API KEY](https://detectlanguage.com/users/sign_in)
 ## Launch
 ```cmd
 flask run
 ```
-or
+recomended:
 ```cmd
 python3 runner.py
 ```
