@@ -3,7 +3,6 @@ import datetime, os, logging
 from flask import request
 from logging.handlers import RotatingFileHandler
 from app import create_app
-from config import DevelopmentConfig
 
 
 def view_reload_time():
@@ -37,7 +36,7 @@ def start_logging(app):
 
 
 if __name__ == '__main__':
-    app = create_app(DevelopmentConfig)
+    app = create_app()
     start_logging(app)
     print(view_reload_time())
 

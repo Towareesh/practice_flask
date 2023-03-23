@@ -8,7 +8,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
-from config import BaseConfig
+from config import DevelopmentConfig
 
 
 # declaration of global variables
@@ -24,7 +24,7 @@ login.login_view    = 'auth.login'
 login.login_message = _l('Please login to access this page.')
 
 
-def create_app(config_class=BaseConfig):
+def create_app(config_class=DevelopmentConfig):
 
     # creating an application instance
     app = Flask(__name__)
