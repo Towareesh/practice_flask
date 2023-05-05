@@ -9,16 +9,18 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from config import DevelopmentConfig
+from ftsmachine import FTSMachine
 
 
 # declaration of global variables
-db        = SQLAlchemy()
-migrate   = Migrate()
-login     = LoginManager()
-mail      = Mail()
-bootstrap = Bootstrap()
-moment    = Moment()
-babel     = Babel()
+db         = SQLAlchemy()
+migrate    = Migrate()
+login      = LoginManager()
+mail       = Mail()
+bootstrap  = Bootstrap()
+moment     = Moment()
+babel      = Babel()
+fts_engine = FTSMachine()
 
 login.login_view    = 'auth.login'
 login.login_message = _l('Please login to access this page.')
@@ -29,7 +31,6 @@ def create_app(config_class=DevelopmentConfig):
     # creating an application instance
     app = Flask(__name__)
     app.config.from_object(config_class)
-    
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
@@ -37,6 +38,7 @@ def create_app(config_class=DevelopmentConfig):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app, locale_selector = lambda: request.accept_languages.best_match(['ru', 'en']))
+    fts_engine.init_app(app)
 
 
     from app.errors import errors_bp

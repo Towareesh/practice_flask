@@ -17,6 +17,7 @@ from flask import current_app
 from flask_login import UserMixin
 from app import db, login
 from hashlib import md5
+from app.search import query_index, clear_column
 
 
 followers = db.Table('followers',
@@ -84,7 +85,22 @@ class User(UserMixin, db.Model):
         return User.query.get(id)
 
 
-class Post(db.Model):
+class SearchableMixin:
+    @classmethod
+    def search(cls, expression):
+        ids, ranks = query_index(cls.__searchable__, cls.__tablename__, expression)
+
+        total = len(ids)
+        if total == 0:
+            return cls.query.filter_by(id=0), 0
+
+        when = [(ids[i], i) for i in range(len(ids))]
+        # return cls.query.filter(cls.id.in_(ids)).order_by(db.case(when, value=cls.id)), total
+        return cls.query.filter(cls.id.in_(ids)), total
+        
+class Post(SearchableMixin, db.Model):
+    __searchable__ = 'body'
+
     id        = db.Column(db.Integer, primary_key=True)
     body      = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
