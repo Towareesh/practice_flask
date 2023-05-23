@@ -15,9 +15,9 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app
 from flask_login import UserMixin
-from app import db, login
+from app import db, login, logger
 from hashlib import md5
-from app.search import query_index, clear_column
+from app.search import add_to_index, remove_from_index, query_index
 
 
 followers = db.Table('followers',
@@ -26,21 +26,22 @@ followers = db.Table('followers',
 
 
 class User(UserMixin, db.Model):
-    id            = db.Column(db.Integer, primary_key=True)
-    username      = db.Column(db.String(64), index=True, unique=True)
-    email         = db.Column(db.String(120), index=True, unique=True)
+    id       = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    email    = db.Column(db.String(120), index=True, unique=True)
+
     password_hash = db.Column(db.String(128))
 
-    posts         = db.relationship('Post', backref='author', lazy='dynamic')
-    about_me      = db.Column(db.String(140))
-    gender        = db.Column(db.String(10))
-    last_seen     = db.Column(db.DateTime, default=datetime.utcnow)
-    followed      = db.relationship('User',
-                                    secondary     = followers,
-                                    primaryjoin   = (followers.c.follower_id == id),
-                                    secondaryjoin = (followers.c.followed_id == id),
-                                    backref       = db.backref('followers', lazy='dynamic'),
-                                    lazy          = 'dynamic')
+    posts     = db.relationship('Post', backref='author', lazy='dynamic')
+    about_me  = db.Column(db.String(140))
+    gender    = db.Column(db.String(10))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    followed  = db.relationship('User',
+                                secondary     = followers,
+                                primaryjoin   = (followers.c.follower_id == id),
+                                secondaryjoin = (followers.c.followed_id == id),
+                                backref       = db.backref('followers', lazy='dynamic'),
+                                lazy          = 'dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -81,25 +82,57 @@ class User(UserMixin, db.Model):
             id = jwt.decode(token, current_app.config['SECRET_KEY'],
                             algorithms=['HS256'])['reset_password']
         except:
-            return
+            return None
         return User.query.get(id)
 
 
 class SearchableMixin:
     @classmethod
-    def search(cls, expression):
-        ids, ranks = query_index(cls.__searchable__, cls.__tablename__, expression)
-
-        total = len(ids)
+    def search(cls, expression, page, per_page):
+        ids, total = query_index(cls.__tablename__, expression, page, per_page)
         if total == 0:
             return cls.query.filter_by(id=0), 0
-
-        when = [(ids[i], i) for i in range(len(ids))]
-        # return cls.query.filter(cls.id.in_(ids)).order_by(db.case(when, value=cls.id)), total
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        # return cls.query.filter(cls.id.in_(ids)).order_by(db.case(ids, value=cls.id)), total
         return cls.query.filter(cls.id.in_(ids)), total
+    
+    @classmethod
+    def before_commit(cls, session):
+        session._changes = {'add': list(session.new),
+                            'update': list(session.dirty),
+                            'delete': list(session.deleted)}
+    
+    @classmethod
+    def after_commits(cls, session):
+        for obj in session._changes['add']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
         
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+
+        for obj in session._changes['delete']:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj.__tablename__, obj)
+
+        session._changes = None
+
+    @classmethod
+    def reindex(cls):
+        for obj in cls.query:
+            add_to_index(cls.__tablename__, obj)
+
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commits)
+
+
+             
 class Post(SearchableMixin, db.Model):
-    __searchable__ = 'body'
+    __searchable__ = ['body']
 
     id        = db.Column(db.Integer, primary_key=True)
     body      = db.Column(db.String(140))

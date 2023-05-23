@@ -1,24 +1,28 @@
-from app import fts_engine
+from flask import current_app
 
 
-def clear_column(df, index: str):
-    # df - is data frame pd.DataFrame
-    df[index] = ((df[index]
-                   .str.replace(r'[^a-zA-Z0-9А-Яа-я]',' ', regex=True)
-                   .str.split()
-                   .apply(lambda x: ' '.join([i.strip() for i in x]))
-                   .str.lower()))
-    return df
+def add_to_index(index, model):
+    if not current_app.elasticsearch:
+        return
+    pyload = {}
+    for field in model.__searchable__:
+        pyload[field] = getattr(model, field)
+    current_app.elasticsearch.index(index=index, id=model.id, body=pyload)
 
-def query_index(index: list, model, query):
+def remove_from_index(index, model):
+    if not current_app.elasticsearch:
+        return
+    current_app.elasticsearch.delete(index=index, id=model.id)
 
-    sqlite_select_query = f"""SELECT id, {index}
-                              FROM {model}"""
-    db_query = fts_engine.sqlite_query(sqlite_select_query)
-    df       = fts_engine.get_data_frame('id', index, db_query=db_query)
-    fts_engine.create_virtual_table(df, ['id', index])
-    answer   = fts_engine.search_fetchall_query(query, index)
+def query_index(index, query, page, per_page):
+    if not current_app.elasticsearch:
+        return [], 0
     
-    ids   = [int.from_bytes(i[0], "little") for i in answer]
-    ranks = [abs(i[-1]) for i in answer]
-    return ids, ranks
+    elastci_query = {'multi_match': {'query': query, 'fields': ['*']}}
+    search = current_app.elasticsearch.search(index=index,
+                                              body={'query': elastci_query,
+                                                    'from': (page - 1) * per_page,
+                                                    'size': per_page})
+
+    ids = [int(hit['_id']) for hit in search['hits']['hits']]
+    return ids, search['hits']['total']['value']

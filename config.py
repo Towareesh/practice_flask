@@ -26,6 +26,8 @@ class BaseConfig:
     
     #### set locales config ####
     LANGUAGES = ['ru', 'en']
+    
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL') or 'http://localhost:9200'
 
 
 class DevelopmentConfig(BaseConfig):
