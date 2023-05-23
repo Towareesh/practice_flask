@@ -9,7 +9,7 @@ class CustomFormatter(logging.Formatter):
     red      = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset    = "\x1b[0m"
-    format   = "%(asctime)s - [%(levelname)s] -  %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
+    format   = "%(asctime)s - [%(levelname)s] - %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
 
     FORMATS = {logging.DEBUG: grey + format + reset,
                logging.INFO: green + format + reset,
@@ -23,8 +23,7 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def get_logger(name: str | None = 'App_Name',
-               stduot=True):
+def get_logger(name: str | None = 'App_Name', stduot=True):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
     if stduot:
