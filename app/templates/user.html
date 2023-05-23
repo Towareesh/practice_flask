@@ -13,17 +13,17 @@
                 <p>{{ _('%(count)d followers', count=user.followers.count()) }}, {{ _('%(count)d following', count=user.followed.count()) }}</p>
                 <p>gender: {{ user.gender }}</p>
                 {% if user == current_user %}
-                <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
+                <p><a href="{{ url_for('user.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
                 {% elif not current_user.is_following(user) %}
                 <p>
-                    <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
+                    <form action="{{ url_for('user.follow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value=_('Follow'), class_='btn btn-default') }}
                     </form>
                 </p>
                 {% else %}
                 <p>
-                    <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
+                    <form action="{{ url_for('user.unfollow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value=_('Unfollow'), class_='btn btn-default') }}
                     </form>

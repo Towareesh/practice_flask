@@ -1,32 +1,9 @@
-from flask_wtf.form import _Auto
-from wtforms.validators import DataRequired, ValidationError, Length
-from wtforms import StringField, SubmitField, TextAreaField
-from flask_babel import _, lazy_gettext as _l
-from flask_wtf import FlaskForm
 from flask import request
-
-from app.models import User
-
-
-class EditProfileForm(FlaskForm):
-    username = StringField(_l('Username'), validators=[DataRequired()])
-    about_me = TextAreaField(_l('About me'), validators=[Length(min=0, max=140)])
-    gender   = StringField('Gender', validators=[DataRequired()])
-    submit   = SubmitField(_l('Submit'))
-
-    def __init__(self, original_name, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.original_name = original_name
-    
-    def validate_username(self, username):
-        if username.data != self.original_name:
-            user = User.query.filter_by(username=self.username.data).first()
-            if user is not None:
-                raise ValidationError(_('Please use a different username.'))
-
-
-class EmptyForm(FlaskForm):
-    submit = SubmitField('Submit')
+from flask_babel import _
+from flask_babel import lazy_gettext as _l
+from flask_wtf import FlaskForm
+from wtforms import SubmitField, TextAreaField, StringField
+from wtforms.validators import DataRequired, Length
 
 
 class PostForm(FlaskForm):
